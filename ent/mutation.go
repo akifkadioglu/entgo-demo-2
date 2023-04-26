@@ -33,9 +33,9 @@ type TableExampleMutation struct {
 	op            Op
 	typ           string
 	id            *int
-	field1        *schema.FieldStruct
-	field2        *[]schema.FieldStruct
-	appendfield2  []schema.FieldStruct
+	field1        *[]schema.FieldStruct
+	appendfield1  []schema.FieldStruct
+	field2        *schema.FieldStruct
 	clearedFields map[string]struct{}
 	done          bool
 	oldValue      func(context.Context) (*TableExample, error)
@@ -141,12 +141,13 @@ func (m *TableExampleMutation) IDs(ctx context.Context) ([]int, error) {
 }
 
 // SetField1 sets the "field1" field.
-func (m *TableExampleMutation) SetField1(ss schema.FieldStruct) {
+func (m *TableExampleMutation) SetField1(ss []schema.FieldStruct) {
 	m.field1 = &ss
+	m.appendfield1 = nil
 }
 
 // Field1 returns the value of the "field1" field in the mutation.
-func (m *TableExampleMutation) Field1() (r schema.FieldStruct, exists bool) {
+func (m *TableExampleMutation) Field1() (r []schema.FieldStruct, exists bool) {
 	v := m.field1
 	if v == nil {
 		return
@@ -157,7 +158,7 @@ func (m *TableExampleMutation) Field1() (r schema.FieldStruct, exists bool) {
 // OldField1 returns the old "field1" field's value of the TableExample entity.
 // If the TableExample object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *TableExampleMutation) OldField1(ctx context.Context) (v schema.FieldStruct, err error) {
+func (m *TableExampleMutation) OldField1(ctx context.Context) (v []schema.FieldStruct, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldField1 is only allowed on UpdateOne operations")
 	}
@@ -171,19 +172,32 @@ func (m *TableExampleMutation) OldField1(ctx context.Context) (v schema.FieldStr
 	return oldValue.Field1, nil
 }
 
+// AppendField1 adds ss to the "field1" field.
+func (m *TableExampleMutation) AppendField1(ss []schema.FieldStruct) {
+	m.appendfield1 = append(m.appendfield1, ss...)
+}
+
+// AppendedField1 returns the list of values that were appended to the "field1" field in this mutation.
+func (m *TableExampleMutation) AppendedField1() ([]schema.FieldStruct, bool) {
+	if len(m.appendfield1) == 0 {
+		return nil, false
+	}
+	return m.appendfield1, true
+}
+
 // ResetField1 resets all changes to the "field1" field.
 func (m *TableExampleMutation) ResetField1() {
 	m.field1 = nil
+	m.appendfield1 = nil
 }
 
 // SetField2 sets the "field2" field.
-func (m *TableExampleMutation) SetField2(ss []schema.FieldStruct) {
+func (m *TableExampleMutation) SetField2(ss schema.FieldStruct) {
 	m.field2 = &ss
-	m.appendfield2 = nil
 }
 
 // Field2 returns the value of the "field2" field in the mutation.
-func (m *TableExampleMutation) Field2() (r []schema.FieldStruct, exists bool) {
+func (m *TableExampleMutation) Field2() (r schema.FieldStruct, exists bool) {
 	v := m.field2
 	if v == nil {
 		return
@@ -194,7 +208,7 @@ func (m *TableExampleMutation) Field2() (r []schema.FieldStruct, exists bool) {
 // OldField2 returns the old "field2" field's value of the TableExample entity.
 // If the TableExample object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *TableExampleMutation) OldField2(ctx context.Context) (v []schema.FieldStruct, err error) {
+func (m *TableExampleMutation) OldField2(ctx context.Context) (v schema.FieldStruct, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldField2 is only allowed on UpdateOne operations")
 	}
@@ -208,23 +222,9 @@ func (m *TableExampleMutation) OldField2(ctx context.Context) (v []schema.FieldS
 	return oldValue.Field2, nil
 }
 
-// AppendField2 adds ss to the "field2" field.
-func (m *TableExampleMutation) AppendField2(ss []schema.FieldStruct) {
-	m.appendfield2 = append(m.appendfield2, ss...)
-}
-
-// AppendedField2 returns the list of values that were appended to the "field2" field in this mutation.
-func (m *TableExampleMutation) AppendedField2() ([]schema.FieldStruct, bool) {
-	if len(m.appendfield2) == 0 {
-		return nil, false
-	}
-	return m.appendfield2, true
-}
-
 // ResetField2 resets all changes to the "field2" field.
 func (m *TableExampleMutation) ResetField2() {
 	m.field2 = nil
-	m.appendfield2 = nil
 }
 
 // Where appends a list predicates to the TableExampleMutation builder.
@@ -303,14 +303,14 @@ func (m *TableExampleMutation) OldField(ctx context.Context, name string) (ent.V
 func (m *TableExampleMutation) SetField(name string, value ent.Value) error {
 	switch name {
 	case tableexample.FieldField1:
-		v, ok := value.(schema.FieldStruct)
+		v, ok := value.([]schema.FieldStruct)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetField1(v)
 		return nil
 	case tableexample.FieldField2:
-		v, ok := value.([]schema.FieldStruct)
+		v, ok := value.(schema.FieldStruct)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}

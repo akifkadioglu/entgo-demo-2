@@ -261,7 +261,7 @@ func (teq *TableExampleQuery) Clone() *TableExampleQuery {
 // Example:
 //
 //	var v []struct {
-//		Field1 schema.FieldStruct `json:"field1,omitempty"`
+//		Field1 []schema.FieldStruct `json:"field1,omitempty"`
 //		Count int `json:"count,omitempty"`
 //	}
 //
@@ -284,7 +284,7 @@ func (teq *TableExampleQuery) GroupBy(field string, fields ...string) *TableExam
 // Example:
 //
 //	var v []struct {
-//		Field1 schema.FieldStruct `json:"field1,omitempty"`
+//		Field1 []schema.FieldStruct `json:"field1,omitempty"`
 //	}
 //
 //	client.TableExample.Query().

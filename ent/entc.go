@@ -1,24 +1,35 @@
-// +build ignore
+//go:build ignore
 
 package main
 
 import (
-    "log"
+	"log"
 
-    "entgo.io/ent/entc"
-    "entgo.io/ent/entc/gen"
-    "github.com/masseelch/elk"
+	"ariga.io/ogent"
+	"entgo.io/contrib/entoas"
+	"entgo.io/ent/entc"
+	"entgo.io/ent/entc/gen"
+	"github.com/hedwigz/entviz"
+	"github.com/ogen-go/ogen"
+	
 )
 
 func main() {
-    ex, err := elk.NewExtension(
-        elk.GenerateSpec("openapi.json"),
-    )
-    if err != nil {
-        log.Fatalf("creating elk extension: %v", err)
-    }
-    err = entc.Generate("./schema", &gen.Config{}, entc.Extensions(ex))
-    if err != nil {
-        log.Fatalf("running ent codegen: %v", err)
-    }
+	spec := new(ogen.Spec)
+	oas, err := entoas.NewExtension(entoas.Spec(spec), entoas.SimpleModels())
+	if err != nil {
+		log.Fatalf("creating entoas extension: %v", err)
+	}
+	ogent, err := ogent.NewExtension(spec)
+	if err != nil {
+		log.Fatalf("creating ogent extension: %v", err)
+	}
+
+	if err != nil {
+		log.Fatalf("creating ogent extension: %v", err)
+	}
+	err = entc.Generate("./schema", &gen.Config{}, entc.Extensions(ogent, oas, entviz.Extension{}))
+	if err != nil {
+		log.Fatalf("running ent codegen: %v", err)
+	}
 }

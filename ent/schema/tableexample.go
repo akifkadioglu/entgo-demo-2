@@ -13,11 +13,10 @@ type TableExample struct {
 // Fields of the Table.
 func (TableExample) Fields() []ent.Field {
 	return []ent.Field{
-		field.JSON("field1", FieldStruct{}),
-		field.JSON("field2", []FieldStruct{}),
+		field.JSON("field1", []FieldStruct{}),
+		field.JSON("field2", FieldStruct{}),
 	}
 }
-
 type FieldStruct struct {
 	Name  string `json:"name"`
 	Email string `json:"email"`

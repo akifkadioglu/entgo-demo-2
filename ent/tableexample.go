@@ -19,9 +19,9 @@ type TableExample struct {
 	// ID of the ent.
 	ID int `json:"id,omitempty"`
 	// Field1 holds the value of the "field1" field.
-	Field1 schema.FieldStruct `json:"field1,omitempty"`
+	Field1 []schema.FieldStruct `json:"field1,omitempty"`
 	// Field2 holds the value of the "field2" field.
-	Field2       []schema.FieldStruct `json:"field2,omitempty"`
+	Field2       schema.FieldStruct `json:"field2,omitempty"`
 	selectValues sql.SelectValues
 }
 

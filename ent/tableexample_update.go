@@ -30,20 +30,20 @@ func (teu *TableExampleUpdate) Where(ps ...predicate.TableExample) *TableExample
 }
 
 // SetField1 sets the "field1" field.
-func (teu *TableExampleUpdate) SetField1(ss schema.FieldStruct) *TableExampleUpdate {
+func (teu *TableExampleUpdate) SetField1(ss []schema.FieldStruct) *TableExampleUpdate {
 	teu.mutation.SetField1(ss)
 	return teu
 }
 
-// SetField2 sets the "field2" field.
-func (teu *TableExampleUpdate) SetField2(ss []schema.FieldStruct) *TableExampleUpdate {
-	teu.mutation.SetField2(ss)
+// AppendField1 appends ss to the "field1" field.
+func (teu *TableExampleUpdate) AppendField1(ss []schema.FieldStruct) *TableExampleUpdate {
+	teu.mutation.AppendField1(ss)
 	return teu
 }
 
-// AppendField2 appends ss to the "field2" field.
-func (teu *TableExampleUpdate) AppendField2(ss []schema.FieldStruct) *TableExampleUpdate {
-	teu.mutation.AppendField2(ss)
+// SetField2 sets the "field2" field.
+func (teu *TableExampleUpdate) SetField2(ss schema.FieldStruct) *TableExampleUpdate {
+	teu.mutation.SetField2(ss)
 	return teu
 }
 
@@ -91,13 +91,13 @@ func (teu *TableExampleUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	if value, ok := teu.mutation.Field1(); ok {
 		_spec.SetField(tableexample.FieldField1, field.TypeJSON, value)
 	}
+	if value, ok := teu.mutation.AppendedField1(); ok {
+		_spec.AddModifier(func(u *sql.UpdateBuilder) {
+			sqljson.Append(u, tableexample.FieldField1, value)
+		})
+	}
 	if value, ok := teu.mutation.Field2(); ok {
 		_spec.SetField(tableexample.FieldField2, field.TypeJSON, value)
-	}
-	if value, ok := teu.mutation.AppendedField2(); ok {
-		_spec.AddModifier(func(u *sql.UpdateBuilder) {
-			sqljson.Append(u, tableexample.FieldField2, value)
-		})
 	}
 	if n, err = sqlgraph.UpdateNodes(ctx, teu.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
@@ -120,20 +120,20 @@ type TableExampleUpdateOne struct {
 }
 
 // SetField1 sets the "field1" field.
-func (teuo *TableExampleUpdateOne) SetField1(ss schema.FieldStruct) *TableExampleUpdateOne {
+func (teuo *TableExampleUpdateOne) SetField1(ss []schema.FieldStruct) *TableExampleUpdateOne {
 	teuo.mutation.SetField1(ss)
 	return teuo
 }
 
-// SetField2 sets the "field2" field.
-func (teuo *TableExampleUpdateOne) SetField2(ss []schema.FieldStruct) *TableExampleUpdateOne {
-	teuo.mutation.SetField2(ss)
+// AppendField1 appends ss to the "field1" field.
+func (teuo *TableExampleUpdateOne) AppendField1(ss []schema.FieldStruct) *TableExampleUpdateOne {
+	teuo.mutation.AppendField1(ss)
 	return teuo
 }
 
-// AppendField2 appends ss to the "field2" field.
-func (teuo *TableExampleUpdateOne) AppendField2(ss []schema.FieldStruct) *TableExampleUpdateOne {
-	teuo.mutation.AppendField2(ss)
+// SetField2 sets the "field2" field.
+func (teuo *TableExampleUpdateOne) SetField2(ss schema.FieldStruct) *TableExampleUpdateOne {
+	teuo.mutation.SetField2(ss)
 	return teuo
 }
 
@@ -211,13 +211,13 @@ func (teuo *TableExampleUpdateOne) sqlSave(ctx context.Context) (_node *TableExa
 	if value, ok := teuo.mutation.Field1(); ok {
 		_spec.SetField(tableexample.FieldField1, field.TypeJSON, value)
 	}
+	if value, ok := teuo.mutation.AppendedField1(); ok {
+		_spec.AddModifier(func(u *sql.UpdateBuilder) {
+			sqljson.Append(u, tableexample.FieldField1, value)
+		})
+	}
 	if value, ok := teuo.mutation.Field2(); ok {
 		_spec.SetField(tableexample.FieldField2, field.TypeJSON, value)
-	}
-	if value, ok := teuo.mutation.AppendedField2(); ok {
-		_spec.AddModifier(func(u *sql.UpdateBuilder) {
-			sqljson.Append(u, tableexample.FieldField2, value)
-		})
 	}
 	_node = &TableExample{config: teuo.config}
 	_spec.Assign = _node.assignValues

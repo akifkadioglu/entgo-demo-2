@@ -21,13 +21,13 @@ type TableExampleCreate struct {
 }
 
 // SetField1 sets the "field1" field.
-func (tec *TableExampleCreate) SetField1(ss schema.FieldStruct) *TableExampleCreate {
+func (tec *TableExampleCreate) SetField1(ss []schema.FieldStruct) *TableExampleCreate {
 	tec.mutation.SetField1(ss)
 	return tec
 }
 
 // SetField2 sets the "field2" field.
-func (tec *TableExampleCreate) SetField2(ss []schema.FieldStruct) *TableExampleCreate {
+func (tec *TableExampleCreate) SetField2(ss schema.FieldStruct) *TableExampleCreate {
 	tec.mutation.SetField2(ss)
 	return tec
 }
